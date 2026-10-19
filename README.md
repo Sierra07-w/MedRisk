@@ -93,6 +93,7 @@ verification plan are complete. Runnable code is not expected at this stage.
 .
 ├── README.md
 ├── CONTRIBUTING.md            # branching, PR and review rules
+├── .env.example               # configuration template (the real .env is git-ignored)
 ├── docs/
 │   ├── proposal/              # project proposal, problem statement, scope
 │   ├── literature/            # critical literature review + source analysis table
@@ -103,8 +104,8 @@ verification plan are complete. Runnable code is not expected at this stage.
 │   ├── management/            # roles, milestones, risks, YouTrack backlog
 │   └── supervisor/            # supervisor feedback log
 ├── prototype/                 # static HTML/CSS mockups of key user scenarios
-├── src/                       # application code (added from M1)
-├── ml/                        # data pipeline & training code (added from M1)
+├── src/                       # application code + requirements.txt (added from M1)
+├── ml/                        # data pipeline & training code + requirements.txt (from M1)
 ├── tests/                     # automated tests (added from M1)
 └── data/                      # dataset download scripts (raw data is not committed)
 ```
@@ -147,6 +148,8 @@ Runnable application code is planned from milestone M1 (see
 contain setup, run and test instructions. The current build/test commands will be:
 
 ```bash
+cp .env.example .env          # fill in real values locally; never commit .env
+
 # backend (planned)
 cd src && pip install -r requirements.txt && uvicorn app.main:app --reload
 pytest                        # unit + API tests
