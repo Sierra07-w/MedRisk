@@ -82,6 +82,12 @@ storing an anonymous `session_id` instead of `user_id`.
 
 ## 7. Draft status and open questions
 
+> **This is an approximate variant, not the final architecture.** The component boundaries,
+> the technology stack and even the deployment model may change during milestones M1–M4 as
+> real data, models and integration constraints become known. Every such change will be
+> recorded as an ADR in `docs/adr/` and reflected in an updated version of this document
+> and its diagrams.
+
 Component diagram is a **draft** for pre-defense 0. Open questions to confirm with the
 supervisor: (1) separate microservice for inference vs. in-process loading;
 (2) whether the trend chart (FR-07) needs server-side aggregation in v1;

@@ -69,6 +69,12 @@ regulatory certification (e.g. FDA/CE marking as a medical device).
 Proposal, reviews, comparisons, requirements, architecture diagrams, prototype mockups and
 verification plan are complete. Runnable code is not expected at this stage.
 
+> **Important:** everything in this repository at this stage is a **preliminary variant**.
+> The UI in `prototype/` is an **early design sketch, not the final design**, and the
+> backend architecture / technology choices described here are an **approximate variant**
+> that may change during implementation. All such changes will be recorded as ADRs and
+> committed like any other change (see [CONTRIBUTING.md](CONTRIBUTING.md)).
+
 ## Selected technologies
 
 | Layer | Choice | Rationale (see [tech comparison](docs/comparisons/technology-comparison.md)) |
@@ -119,7 +125,9 @@ verification plan are complete. Runnable code is not expected at this stage.
 
 ## Prototype
 
-Static HTML mockups of the key user scenarios (no build required):
+Static HTML mockups of the key user scenarios (no build required). **These are sketches
+for discussion, not the final design** — colors, layout and wording will be revised after
+user feedback and the supervisor's review:
 
 ```bash
 cd prototype

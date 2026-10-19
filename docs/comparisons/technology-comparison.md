@@ -7,6 +7,11 @@ Six key technical decisions, 2–3 alternatives each, with the criteria taken fr
 (see [project proposal](../proposal/project-proposal.md) § team). Scoring: ●●● best,
 ●●○ good, ●○○ acceptable, ○○○ not selected.
 
+> **Note:** the selections below are the team's **preliminary (approximate) variant** for
+> this stage. They are justified by the current requirements, but may be revised during
+> implementation if practical experience proves otherwise — each revision will be recorded
+> as an ADR (see [architecture description §7](../architecture/architecture-description.md)).
+
 ## D1. ML framework & modelling approach
 
 | Criterion | scikit-learn (logistic regression + GBM) ●●● | LightGBM/XGBoost standalone ●●○ | Deep learning (PyTorch/TF) ●○○ |
