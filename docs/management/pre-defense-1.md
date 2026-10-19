@@ -6,7 +6,7 @@ done, known limitations and outstanding tasks.
 
 | Item | Value |
 |---|---|
-| Repository | <https://github.com/kkfes/MedRisk> (private; team and supervisor have access) |
+| Repository | <https://github.com/kkfes/MedRisk> (public) |
 | Tag | [`pre-defense-1`](../../../releases/tag/pre-defense-1) |
 | Stage | Milestone **M0 — Concept** (pre-defense 1) |
 | YouTrack | <https://medrisk.youtrack.cloud/projects/DIP> — tasks DIP-1 … DIP-46 |

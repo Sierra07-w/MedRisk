@@ -26,10 +26,10 @@ due date match the CSV for every issue.
    exact option names).
 
 **Step 2 — Prepare fields and users**
-1. Invite the team first: Administration → Users → `+` — invite
-   `mme84855@gmail.com`, `zarinakosaman9@gmail.com`, `mukhammadsara07@gmail.com`,
-   `A.Bakiyeva@astanait.edu.kz`. Otherwise the *Assignee* column will not map
-   (YouTrack matches by login/e-mail).
+1. Invite the team first: Administration → Users → `+`. The project uses the accounts
+   `admin` (Muslim), `zarinakosaman9` (Zarina) and `mukhammadsara07` (Sara) — the password
+   reset e-mail addresses are not kept in the repository, which is **public**. Otherwise the
+   *Assignee* column will not map (YouTrack matches by login/e-mail).
 2. Custom field **Milestone** (for the `M0…M6` column): project settings →
    **Custom Fields** → `+` → type **State field** (or Text) → name `Milestone`,
    attach to issue type *Issue*.
