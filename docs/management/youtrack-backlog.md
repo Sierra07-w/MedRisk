@@ -1,0 +1,90 @@
+# YouTrack Task Backlog — MedRisk
+
+**Purpose:** import-ready backlog. A YouTrack project is not created yet; once created,
+import `youtrack-import.csv` (YouTrack → Import → CSV) or create tasks manually from the
+table below, then **update the project link in the root README**.
+
+Suggested project settings:
+- **Project name:** MedRisk, **ID prefix:** `DIP`
+- **States:** Submitted → In Progress → In Review → Done
+- **Priorities:** Critical / Major / Normal / Minor
+- Custom fields: `Milestone` (M0…M6)
+
+Rules: every task has an assignee, an acceptance criterion and a deadline; the task ID goes
+into the branch name and the commit/PR title (`DIP-12: …`). A task is Done only when its
+acceptance criteria are met.
+
+---
+
+## M0 — Concept (24 Oct 2026) — DONE via this repository
+
+| ID | Summary | Assignee | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| DIP-1 | Create repository, README, .gitignore, structure | Muslim | Critical | Repo exists with structure per README; no secrets committed |
+| DIP-2 | Project proposal & scope | Muslim | Critical | `docs/proposal/` approved by supervisor |
+| DIP-3 | Literature review (12+ sources, 8+ scientific) | Zarina | Critical | Table with ≥12 sources; gaps identified |
+| DIP-4 | Existing system comparison (3–5 systems, 6–10 criteria) | Muslim | Major | Matrix with ≥5 systems × ≥9 criteria + evidence |
+| DIP-5 | Technology comparison (3+ decisions, 2–3 alternatives) | Muslim | Major | 6 decisions documented with rationale |
+| DIP-6 | Requirements spec + acceptance criteria | All | Critical | Every Must requirement verifiable; supervisor reviewed |
+| DIP-7 | Architecture diagrams (context, use case, component) + description | Muslim | Critical | Editable `.mmd` + SVG exports committed |
+| DIP-8 | HTML prototype of key scenarios | Sara | Critical | 4 mockups committed; supervisor walkthrough done |
+| DIP-9 | Verification & evaluation plan | Zarina | Critical | Metrics, baselines, thresholds defined |
+| DIP-10 | Project management: roles, milestones, risks | All | Major | Doc committed; team confirmed roles |
+| DIP-11 | YouTrack backlog preparation | Muslim | Major | Backlog + CSV import file committed |
+
+## M1 — Data & baselines (until 15 Nov 2026)
+
+| ID | Summary | Assignee | Priority | Deadline | Acceptance criteria |
+|---|---|---|---|---|---|
+| DIP-12 | Download scripts for UCI Cleveland & Pima datasets | Zarina | Critical | 25 Oct | `data/download.py` pins URLs + checksums; raw data git-ignored |
+| DIP-13 | Data-quality report (missingness, imbalance, biases) | Zarina | Critical | 01 Nov | `docs/ml/data-quality-report.md` with statistics and decisions |
+| DIP-14 | Preprocessing pipeline (impute, encode, split, seed) | Zarina | Critical | 05 Nov | Reproducible pipeline; unit tests pass; no leakage (reviewed) |
+| DIP-15 | Logistic-regression baseline + metrics | Zarina | Critical | 08 Nov | AUC/Brier/calibration committed to `ml/reports/` |
+| DIP-16 | Framingham-style clinical baseline implementation | Zarina | Major | 12 Nov | Score computed on same test split; comparison table exists |
+| DIP-17 | DB schema draft + ERD review | Muslim | Major | 01 Nov | Migration files + ERD matches `docs/architecture/diagrams/er-diagram.mmd` |
+| DIP-18 | FastAPI skeleton + OpenAPI committed | Muslim | Major | 08 Nov | App runs in Docker; `/health` works; spec in repo |
+| DIP-19 | Design system: colors, typography, components | Sara | Normal | 05 Nov | Figma/HTML style guide linked from README |
+| DIP-20 | Supervising meeting #1: review M1 baselines | Zarina | Major | 15 Nov | Feedback logged in `docs/supervisor/feedback-log.md` |
+
+## M2 — ML models & explanations (until 06 Dec 2026)
+
+| ID | Summary | Assignee | Priority | Deadline | Acceptance criteria |
+|---|---|---|---|---|---|
+| DIP-21 | LightGBM model for CVD | Zarina | Critical | 20 Nov | AUC ≥ 0.78 or documented fallback vs baseline |
+| DIP-22 | LightGBM model for T2D | Zarina | Critical | 24 Nov | Same criterion as DIP-21 |
+| DIP-23 | Hyperparameter tuning with CV (no leakage) | Zarina | Major | 28 Nov | Tuning script + CV results committed |
+| DIP-24 | Subgroup (sex, age) metric report | Zarina | Critical | 30 Nov | Per-subgroup AUC table; gaps > 0.05 documented |
+| DIP-25 | SHAP explanation module | Muslim | Critical | 01 Dec | Top-k signed attributions; unit tests |
+| DIP-26 | Model card v1 | Zarina | Critical | 03 Dec | All template sections filled; metrics match reports |
+| DIP-27 | Evaluation report v1 | Zarina | Major | 06 Dec | Comparisons vs both baselines with CIs |
+| DIP-28 | Model bundle contract (input schema + versioning) | Muslim | Major | 06 Dec | JSON schema + loader with tests |
+
+## M3 — Backend API (until 27 Dec 2026)
+
+| ID | Summary | Assignee | Priority | Deadline | Acceptance criteria |
+|---|---|---|---|---|---|
+| DIP-29 | PostgreSQL schema migrations | Muslim | Critical | 10 Dec | Migrations up/down tested |
+| DIP-30 | `POST /api/v1/assessments` (guest) | Muslim | Critical | 14 Dec | Contract tests (15+ cases) pass |
+| DIP-31 | Auth: register/login/JWT/password hashing | Muslim | Critical | 18 Dec | Negative auth tests pass; no plaintext passwords |
+| DIP-32 | History endpoints + delete (FR-06, NFR-04) | Muslim | Critical | 22 Dec | Integration tests incl. erasure |
+| DIP-33 | Admin endpoints (FR-08) | Muslim | Minor | 26 Dec | 403 for non-admin verified |
+| DIP-34 | CI pipeline: lint, tests, gitleaks, schemathesis | Muslim | Major | 27 Dec | CI green on main |
+
+## M4 — Frontend & integration (until 24 Jan 2027)
+
+| ID | Summary | Assignee | Priority | Deadline | Acceptance criteria |
+|---|---|---|---|---|---|
+| DIP-35 | React app scaffold + TS types from OpenAPI | Sara | Critical | 05 Jan | Generated client compiles; dev build runs |
+| DIP-36 | Questionnaire form with validation | Sara | Critical | 10 Jan | E2E: valid + invalid inputs |
+| DIP-37 | Risk report page (factors, disclaimer) | Sara | Critical | 15 Jan | E2E assertions FR-03/FR-04 pass |
+| DIP-38 | History + trends page | Sara | Major | 19 Jan | FR-07 works with ≥2 assessments |
+| DIP-39 | Usability test protocol + run (n≥5) | Sara | Major | 22 Jan | SUS ≥ 70 or improvement plan |
+| DIP-40 | Performance test (p95 ≤ 500 ms) | Muslim | Major | 23 Jan | k6 report attached to task |
+
+## M5 — Pre-defense 1 (until 07 Feb 2027)
+
+| ID | Summary | Assignee | Priority | Deadline | Acceptance criteria |
+|---|---|---|---|---|---|
+| DIP-41 | End-to-end demo rehearsal (video backup) | All | Critical | 04 Feb | Demo runs twice successfully |
+| DIP-42 | Documentation update + tag `pre-defense-1` | Muslim | Critical | 07 Feb | Tag pushed; README status updated |
+| DIP-43 | Supervisor review of M1–M4 results | Supervisor | Critical | 06 Feb | Feedback logged and addressed |
