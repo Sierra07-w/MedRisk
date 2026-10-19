@@ -1,0 +1,48 @@
+%% MedRisk — Component diagram (draft)
+%% Editable source: render with `mmdc` or scripts/render-diagrams.sh
+flowchart TB
+    subgraph Client["Client (browser)"]
+        UI["Web UI<br/>React + TypeScript SPA"]
+    end
+
+    subgraph Backend["Backend — FastAPI (modular monolith)"]
+        API["API layer<br/>routing, Pydantic validation, JWT middleware"]
+        RiskSvc["Risk service"]
+        ExpSvc["Explanation service<br/>SHAP -> ranked factors -> text"]
+        HistSvc["History service"]
+        AuthSvc["Auth service<br/>registration, login, tokens"]
+    end
+
+    subgraph ML["ML layer (offline + inference)"]
+        Pipe["Data pipeline<br/>pandas: clean, impute, encode, split"]
+        Train["Training pipeline<br/>scikit-learn + LightGBM"]
+        ModelReg[("Model registry<br/>versioned model bundles")]
+        Infer["Inference service<br/>load bundle, predict, explain"]
+    end
+
+    DB[("PostgreSQL")]
+
+    UI -->|"REST / JSON (OpenAPI)"| API
+    API --> AuthSvc
+    API --> RiskSvc
+    API --> HistSvc
+    API --> ExpSvc
+    RiskSvc --> Infer
+    RiskSvc --> ExpSvc
+    HistSvc --> DB
+    AuthSvc --> DB
+    RiskSvc -->|"persist result + model version"| HistSvc
+
+    Datasets[("Public datasets<br/>UCI, Pima, Framingham")] --> Pipe
+    Pipe --> Train
+    Train --> ModelReg
+    ModelReg --> Infer
+
+    classDef ui fill:#e8f0fe,stroke:#3367d6,color:#1a2b4a
+    classDef svc fill:#e6f4ea,stroke:#1e8e3e,color:#0d3d1a
+    classDef ml fill:#fef7e0,stroke:#f9ab00,color:#4a3800
+    classDef store fill:#f1f3f4,stroke:#80868b,color:#202124
+    class UI ui
+    class API,RiskSvc,ExpSvc,HistSvc,AuthSvc svc
+    class Pipe,Train,Infer ml
+    class DB,ModelReg,Datasets store

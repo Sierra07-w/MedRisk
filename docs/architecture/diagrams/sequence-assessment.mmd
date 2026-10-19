@@ -1,0 +1,26 @@
+%% MedRisk — Sequence diagram: assessment flow (synchronous inference path)
+%% Editable source: render with `mmdc` or scripts/render-diagrams.sh
+sequenceDiagram
+    autonumber
+    actor U as User
+    participant UI as Web UI (React)
+    participant API as API layer (FastAPI)
+    participant RS as Risk service
+    participant EX as Explanation service
+    participant INF as Inference service
+    participant DB as PostgreSQL
+
+    U->>UI: Fill in health questionnaire
+    UI->>API: POST /api/v1/assessments (validated JSON)
+    API->>API: Pydantic validation, JWT or guest session
+    API->>RS: compute_assessment(answers)
+    RS->>INF: predict(features) [model bundle loaded, versioned)
+    INF-->>RS: probabilities: cvd=0.31, t2d=0.18
+    RS->>EX: explain(features, model)
+    EX-->>RS: top-5 SHAP factors (signed, ranked)
+    RS->>RS: categorize risk + plain-language templates
+    RS->>DB: persist assessment, results, contributions, model_version
+    DB-->>RS: OK
+    RS-->>API: AssessmentReport (both risks + factors + disclaimer)
+    API-->>UI: 201 Created
+    UI-->>U: Show report: probabilities, categories, factor bars, disclaimer

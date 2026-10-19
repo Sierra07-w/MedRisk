@@ -1,0 +1,28 @@
+%% MedRisk — System context diagram (C4 level 1)
+%% Editable source: render with `mmdc` or scripts/render-diagrams.sh
+flowchart LR
+    User["User<br/>(adult 30–70, primary actor)"]
+    Pro["Healthcare professional<br/>(secondary, later stages)"]
+    Admin["Administrator / researcher"]
+
+    MedRisk[["MedRisk system<br/>risk assessment + explanations"]]
+
+    DB[("PostgreSQL<br/>users, assessments, results")]
+    Datasets[("Public medical datasets<br/>UCI Cleveland, Pima, Framingham")]
+    LLM[("External LLM API<br/>(optional, future)")]
+
+    User -->|"health questionnaire"| MedRisk
+    MedRisk -->|"risk report:<br/>probabilities, categories,<br/>factor explanations"| User
+    Pro -->|"reviews saved reports"| MedRisk
+    Admin -->|"manages models,<br/>users, evaluations"| MedRisk
+
+    MedRisk --> DB
+    Datasets -->|"offline ingestion<br/>(training pipeline)"| MedRisk
+    MedRisk -.->|"optional free-text explanation<br/>(not in v1)"| LLM
+
+    classDef person fill:#e8f0fe,stroke:#3367d6,color:#1a2b4a
+    classDef system fill:#e6f4ea,stroke:#1e8e3e,color:#0d3d1a
+    classDef ext fill:#f1f3f4,stroke:#80868b,color:#202124
+    class User,Pro,Admin person
+    class MedRisk system
+    class DB,Datasets,LLM ext

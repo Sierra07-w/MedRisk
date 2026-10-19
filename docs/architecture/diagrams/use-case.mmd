@@ -1,0 +1,39 @@
+%% MedRisk — Use case diagram
+%% Editable source: render with `mmdc` or scripts/render-diagrams.sh
+flowchart LR
+    Guest((Guest))
+    User((Registered<br/>user))
+    Admin((Admin))
+
+    UC1["UC1 Fill in health questionnaire"]
+    UC2["UC2 Calculate risk scores"]
+    UC3["UC3 View risk report"]
+    UC4["UC4 Get factor explanations"]
+    UC5["UC5 View assessment history"]
+    UC6["UC6 View risk trends"]
+    UC7["UC7 Register / log in"]
+    UC8["UC8 Delete own data"]
+    UC9["UC9 Manage users"]
+    UC10["UC10 Manage model metadata"]
+    UC11["UC11 Review data & model quality"]
+
+    Guest --> UC1
+    Guest --> UC2
+    Guest --> UC7
+    UC3 -.->|"«include»"| UC2
+    UC4 -.->|"«include»"| UC3
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    User --> UC8
+
+    Admin --> UC9
+    Admin --> UC10
+    Admin --> UC11
+
+    classDef actor fill:#e8f0fe,stroke:#3367d6,color:#1a2b4a
+    class Guest,User,Admin actor
