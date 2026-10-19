@@ -44,4 +44,4 @@ Documentation update and tag pre-defense-1,"**Acceptance criteria:** tag pushed,
 Supervisor review of M1-M4 results,**Acceptance criteria:** feedback logged and addressed,Aigerim Bakiyeva,Critical,M5,To do,2027-02-06
 Evidence of relevance: 3-5 interviews with user representatives per protocol docs/evidence/user-research.md,"**Acceptance criteria:** findings log filled, verified findings vs assumptions marked",Team,Critical,M0,To do,2026-10-22
 "Create YouTrack project, import backlog, add link to README","**Acceptance criteria:** link live in README, tasks created",Muslim Syzdykov,Critical,M0,Done,2026-10-23
-"Push repository to GitHub, grant access to team and supervisor","**Acceptance criteria:** repo link live in README, all members + supervisor have access",Muslim Syzdykov,Critical,M0,To do,2026-10-23
+"Push repository to GitHub, grant access to team and supervisor","**Acceptance criteria:** repository pushed to GitHub (github.com/kkfes/MedRisk), link in README; Zarina (haweeks) and Sara (Sierra07-w) invited as collaborators. **Note:** supervisor GitHub access is not required — team decision, 19 Oct 2026.",Muslim Syzdykov,Critical,M0,Done,2026-10-23

@@ -95,7 +95,7 @@ acceptance criteria are met.
 | DIP-11 | YouTrack backlog preparation | Muslim | Major | Backlog + CSV import file committed |
 | DIP-44 | Evidence of relevance: 3–5 interviews with user representatives (protocol in `docs/evidence/user-research.md`) | All | Critical | Findings log filled; verified findings vs assumptions marked |
 | DIP-45 | Create YouTrack project, import backlog, add link to README | Muslim | Critical | YouTrack link live in README; tasks DIP-1…DIP-46 created |
-| DIP-46 | Push repository to GitHub, grant access to team + supervisor | Muslim | Critical | Repo link live in README; all 4 members + supervisor have access |
+| DIP-46 | Push repository to GitHub, grant access to team | Muslim | Critical | Repo link live in README; Zarina (`haweeks`) and Sara (`Sierra07-w`) invited as collaborators; supervisor access not required — team decision |
 
 ## M1 — Data & baselines (until 15 Nov 2026)
 
