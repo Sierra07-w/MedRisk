@@ -1,8 +1,61 @@
 # YouTrack Task Backlog — MedRisk
 
 **Purpose:** import-ready backlog. A YouTrack project is not created yet; once created,
-import `youtrack-import.csv` (YouTrack → Import → CSV) or create tasks manually from the
-table below, then **update the project link in the root README**.
+import `youtrack-import.csv` (see the step-by-step guide below) or create tasks manually
+from the table, then **update the project link in the root README**.
+
+## How to import the backlog into YouTrack (step by step)
+
+> Works for youtrack.cloud and self-hosted YouTrack 2023+. Admin rights or project-admin
+> rights are required for steps 1–3.
+
+**Step 1 — Create the project**
+1. YouTrack → `+ New` (or Administration → Projects → `+`) → **Create Project**.
+2. Name: `MedRisk`. **ID prefix: `DIP`** — this is important: branch and commit names in
+   Git use these IDs (see CONTRIBUTING.md).
+3. Workflow: choose one whose states are close to `Submitted → In Progress → In Review → Done`
+   (e.g. the *Agile*-style workflow); you can rename states later in the workflow settings.
+
+**Step 2 — Prepare fields and users**
+1. Invite the team first: Administration → Users → `+` — invite
+   `mme84855@gmail.com`, `zarinakosaman9@gmail.com`, `mukhammadsara07@gmail.com`,
+   `A.Bakiyeva@astanait.edu.kz`. Otherwise the *Assignee* column will not map
+   (YouTrack matches by login/e-mail).
+2. Custom field **Milestone** (for the `M0…M6` column): project settings →
+   **Custom Fields** → `+` → type **State field** (or Text) → name `Milestone`,
+   attach to issue type *Issue*.
+3. Check that **Priority** (Critical/Major/Normal/Minor) and **State**
+   (Submitted/In Progress/In Review/Done) already exist in the project workflow —
+   CSV values must match the existing option names exactly.
+
+**Step 3 — Import the CSV**
+1. Administration → **Import Data from Other Tracker** → `+ Create Import Configuration`.
+2. Format: **CSV**. Upload `docs/management/youtrack-import.csv` from the repository.
+   Delimiter: comma. Encoding: UTF-8. (Dates are already in `YYYY-MM-DD`.)
+3. Map the columns:
+   | CSV column | YouTrack field |
+   |---|---|
+   | Summary | Summary |
+   | Description | Description |
+   | Assignee | Assignee |
+   | Priority | Priority |
+   | State | State |
+   | Milestone | Milestone (custom field from step 2) |
+   | Due date | Due Date |
+4. **Preview** the first rows → check mapping → **Import**.
+
+**Step 4 — Verify**
+1. The CSV is sorted by ID, so a fresh `DIP` project numbers the issues **DIP-1 … DIP-46**
+   in exactly this order. Check that issue numbers match the table (DIP-44 = interviews,
+   DIP-45 = YouTrack setup, DIP-46 = GitHub push).
+2. If the numbering is off (e.g. a test issue was created before the import), fix it
+   *before* the team starts branching: Administration → Projects → DIP → **ID** →
+   change the number of the next issue, delete the mismatched issues and re-import.
+3. Add the project link to the root `README.md` (section «Task tracking») and commit.
+
+**Manual fallback:** if import is not possible, create tasks from the table below —
+46 tasks, fields: summary, description with acceptance criteria, assignee, priority,
+state, milestone, due date. Order does not matter then.
 
 Suggested project settings:
 - **Project name:** MedRisk, **ID prefix:** `DIP`
