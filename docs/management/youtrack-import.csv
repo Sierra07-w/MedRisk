@@ -1,47 +1,47 @@
 Summary,Description,Assignee,Priority,Milestone,State,Due date
-DIP-1,"Create repository, README, .gitignore, project structure (acceptance: repo with README structure, no secrets)",Muslim Syzdykov,Critical,M0,Done,2026-10-24
-DIP-2,"Project proposal: problem statement, users, aim, objectives, outcomes, scope (acceptance: docs/proposal approved by supervisor)",Muslim Syzdykov,Critical,M0,Done,2026-10-24
-DIP-3,"Literature review: 12+ sources, 8+ scientific, analysis table (acceptance: table committed, gaps identified)",Zarina Kosaman,Critical,M0,Done,2026-10-24
-DIP-4,"Existing system comparison: 5 systems x 9 criteria with evidence (acceptance: matrix committed)",Muslim Syzdykov,Major,M0,Done,2026-10-24
-DIP-5,"Technology comparison: 6 decisions with 2-3 alternatives each (acceptance: doc committed with rationale)",Muslim Syzdykov,Major,M0,Done,2026-10-24
-DIP-6,"Requirements specification: FR/NFR, MoSCoW priorities, acceptance criteria (acceptance: every Must requirement verifiable)",Team,Major,M0,Done,2026-10-24
-DIP-7,"Architecture diagrams: context, use case, component + description (acceptance: .mmd sources and SVG exports committed)",Muslim Syzdykov,Critical,M0,Done,2026-10-24
-DIP-8,"HTML prototype of key user scenarios (acceptance: 4 mockups committed and reviewed)",Sara Mukhammad,Critical,M0,Done,2026-10-24
-DIP-9,"Verification and evaluation plan: metrics, baselines, thresholds (acceptance: plan committed)",Zarina Kosaman,Critical,M0,Done,2026-10-24
-DIP-10,"Project management: roles, milestones, risks, dependencies (acceptance: doc committed, team confirmed)",Team,Major,M0,Done,2026-10-24
-DIP-11,"YouTrack backlog preparation and import (acceptance: backlog + CSV committed, project created)",Muslim Syzdykov,Major,M0,Done,2026-10-24
-DIP-12,"Download scripts for UCI Cleveland and Pima datasets (acceptance: scripts pin URLs + checksums, raw data git-ignored)",Zarina Kosaman,Critical,M1,Submitted,2026-10-25
-DIP-13,"Data-quality report: missingness, imbalance, biases (acceptance: docs/ml/data-quality-report.md with statistics)",Zarina Kosaman,Critical,M1,Submitted,2026-11-01
-DIP-14,"Preprocessing pipeline: impute, encode, split, seeded (acceptance: reproducible pipeline, unit tests pass, no leakage)",Zarina Kosaman,Critical,M1,Submitted,2026-11-05
-DIP-15,"Logistic regression baseline with metrics (acceptance: AUC/Brier/calibration in ml/reports/)",Zarina Kosaman,Critical,M1,Submitted,2026-11-08
-DIP-16,"Framingham-style clinical baseline on same test split (acceptance: comparison table exists)",Zarina Kosaman,Major,M1,Submitted,2026-11-12
-DIP-17,"DB schema draft and ERD review (acceptance: migrations + ERD match docs/architecture/diagrams/er-diagram.mmd)",Muslim Syzdykov,Major,M1,Submitted,2026-11-01
-DIP-18,"FastAPI skeleton with committed OpenAPI spec (acceptance: runs in Docker, /health works)",Muslim Syzdykov,Major,M1,Submitted,2026-11-08
-DIP-19,"Design system: colors, typography, components (acceptance: style guide linked from README)",Sara Mukhammad,Normal,M1,Submitted,2026-11-05
-DIP-20,"Supervising meeting 1: review M1 baselines (acceptance: feedback logged)",Zarina Kosaman,Major,M1,Submitted,2026-11-15
-DIP-21,"LightGBM model for CVD (acceptance: AUC >= 0.78 or documented fallback vs baseline)",Zarina Kosaman,Critical,M2,Submitted,2026-11-20
-DIP-22,"LightGBM model for T2D (acceptance: AUC >= 0.78 or documented fallback vs baseline)",Zarina Kosaman,Critical,M2,Submitted,2026-11-24
-DIP-23,"Hyperparameter tuning with CV, no leakage (acceptance: tuning script + CV results committed)",Zarina Kosaman,Major,M2,Submitted,2026-11-28
-DIP-24,"Subgroup metric report by sex and age (acceptance: per-subgroup AUC table, gaps > 0.05 documented)",Zarina Kosaman,Critical,M2,Submitted,2026-11-30
-DIP-25,"SHAP explanation module (acceptance: top-k signed attributions with unit tests)",Muslim Syzdykov,Critical,M2,Submitted,2026-12-01
-DIP-26,"Model card v1 (acceptance: all template sections filled, metrics match reports)",Zarina Kosaman,Critical,M2,Submitted,2026-12-03
-DIP-27,"Evaluation report v1 vs both baselines with confidence intervals (acceptance: report committed)",Zarina Kosaman,Major,M2,Submitted,2026-12-06
-DIP-28,"Model bundle contract: input schema + versioning (acceptance: JSON schema + loader tests)",Muslim Syzdykov,Major,M2,Submitted,2026-12-06
-DIP-29,"PostgreSQL schema migrations (acceptance: up/down migrations tested)",Muslim Syzdykov,Critical,M3,Submitted,2026-12-10
-DIP-30,"POST /api/v1/assessments guest endpoint (acceptance: 15+ contract test cases pass)",Muslim Syzdykov,Critical,M3,Submitted,2026-12-14
-DIP-31,"Auth: register/login/JWT/bcrypt (acceptance: negative auth tests pass, no plaintext passwords)",Muslim Syzdykov,Critical,M3,Submitted,2026-12-18
-DIP-32,"History endpoints + account deletion (acceptance: integration tests incl. erasure pass)",Muslim Syzdykov,Critical,M3,Submitted,2026-12-22
-DIP-33,"Admin endpoints (acceptance: 403 for non-admin verified)",Muslim Syzdykov,Minor,M3,Submitted,2026-12-26
-DIP-34,"CI pipeline: lint, tests, gitleaks, schemathesis (acceptance: CI green on main)",Muslim Syzdykov,Major,M3,Submitted,2026-12-27
-DIP-35,"React scaffold + TypeScript types generated from OpenAPI (acceptance: client compiles, dev build runs)",Sara Mukhammad,Critical,M4,Submitted,2027-01-05
-DIP-36,"Questionnaire form with validation (acceptance: E2E valid + invalid input cases pass)",Sara Mukhammad,Critical,M4,Submitted,2027-01-10
-DIP-37,"Risk report page with factors and disclaimer (acceptance: E2E assertions for FR-03/FR-04 pass)",Sara Mukhammad,Critical,M4,Submitted,2027-01-15
-DIP-38,"History and trends page (acceptance: works with >= 2 assessments)",Sara Mukhammad,Major,M4,Submitted,2027-01-19
-DIP-39,"Usability test protocol and run, n >= 5 (acceptance: SUS >= 70 or improvement plan)",Sara Mukhammad,Major,M4,Submitted,2027-01-22
-DIP-40,"Performance test p95 <= 500 ms (acceptance: k6/locust report attached)",Muslim Syzdykov,Major,M4,Submitted,2027-01-23
-DIP-41,"End-to-end demo rehearsal with video backup (acceptance: demo runs twice successfully)",Team,Critical,M5,Submitted,2027-02-04
-DIP-42,"Documentation update and tag pre-defense-1 (acceptance: tag pushed, README updated)",Muslim Syzdykov,Critical,M5,Submitted,2027-02-07
-DIP-43,"Supervisor review of M1-M4 results (acceptance: feedback logged and addressed)",Aigerim Bakiyeva,Critical,M5,Submitted,2027-02-06
-DIP-44,"Evidence of relevance: 3-5 interviews with user representatives per protocol docs/evidence/user-research.md (acceptance: findings log filled, verified findings vs assumptions marked)",Team,Critical,M0,Submitted,2026-10-22
-DIP-45,"Create YouTrack project, import backlog, add link to README (acceptance: link live in README, tasks created)",Muslim Syzdykov,Critical,M0,Submitted,2026-10-23
-DIP-46,"Push repository to GitHub, grant access to team and supervisor (acceptance: repo link live in README, all members + supervisor have access)",Muslim Syzdykov,Critical,M0,Submitted,2026-10-23
+"Create repository, README, .gitignore, project structure","**Acceptance criteria:** repo with README structure, no secrets",Muslim Syzdykov,Critical,M0,Done,2026-10-24
+"Project proposal: problem statement, users, aim, objectives, outcomes, scope",**Acceptance criteria:** docs/proposal approved by supervisor,Muslim Syzdykov,Critical,M0,Done,2026-10-24
+"Literature review: 12+ sources, 8+ scientific, analysis table","**Acceptance criteria:** table committed, gaps identified",Zarina Kosaman,Critical,M0,Done,2026-10-24
+Existing system comparison: 5 systems x 9 criteria with evidence,**Acceptance criteria:** matrix committed,Muslim Syzdykov,Major,M0,Done,2026-10-24
+Technology comparison: 6 decisions with 2-3 alternatives each,**Acceptance criteria:** doc committed with rationale,Muslim Syzdykov,Major,M0,Done,2026-10-24
+"Requirements specification: FR/NFR, MoSCoW priorities, acceptance criteria",**Acceptance criteria:** every Must requirement verifiable,Team,Major,M0,Done,2026-10-24
+"Architecture diagrams: context, use case, component + description",**Acceptance criteria:** .mmd sources and SVG exports committed,Muslim Syzdykov,Critical,M0,Done,2026-10-24
+HTML prototype of key user scenarios,**Acceptance criteria:** 4 mockups committed and reviewed,Sara Mukhammad,Critical,M0,Done,2026-10-24
+"Verification and evaluation plan: metrics, baselines, thresholds",**Acceptance criteria:** plan committed,Zarina Kosaman,Critical,M0,Done,2026-10-24
+"Project management: roles, milestones, risks, dependencies","**Acceptance criteria:** doc committed, team confirmed",Team,Major,M0,Done,2026-10-24
+YouTrack backlog preparation and import,"**Acceptance criteria:** backlog + CSV committed, project created",Muslim Syzdykov,Major,M0,Done,2026-10-24
+Download scripts for UCI Cleveland and Pima datasets,"**Acceptance criteria:** scripts pin URLs + checksums, raw data git-ignored",Zarina Kosaman,Critical,M1,To do,2026-10-25
+"Data-quality report: missingness, imbalance, biases",**Acceptance criteria:** docs/ml/data-quality-report.md with statistics,Zarina Kosaman,Critical,M1,To do,2026-11-01
+"Preprocessing pipeline: impute, encode, split, seeded","**Acceptance criteria:** reproducible pipeline, unit tests pass, no leakage",Zarina Kosaman,Critical,M1,To do,2026-11-05
+Logistic regression baseline with metrics,**Acceptance criteria:** AUC/Brier/calibration in ml/reports/,Zarina Kosaman,Critical,M1,To do,2026-11-08
+Framingham-style clinical baseline on same test split,**Acceptance criteria:** comparison table exists,Zarina Kosaman,Major,M1,To do,2026-11-12
+DB schema draft and ERD review,**Acceptance criteria:** migrations + ERD match docs/architecture/diagrams/er-diagram.mmd,Muslim Syzdykov,Major,M1,To do,2026-11-01
+FastAPI skeleton with committed OpenAPI spec,"**Acceptance criteria:** runs in Docker, /health works",Muslim Syzdykov,Major,M1,To do,2026-11-08
+"Design system: colors, typography, components",**Acceptance criteria:** style guide linked from README,Sara Mukhammad,Normal,M1,To do,2026-11-05
+Supervising meeting 1: review M1 baselines,**Acceptance criteria:** feedback logged,Zarina Kosaman,Major,M1,To do,2026-11-15
+LightGBM model for CVD,**Acceptance criteria:** AUC >= 0.78 or documented fallback vs baseline,Zarina Kosaman,Critical,M2,To do,2026-11-20
+LightGBM model for T2D,**Acceptance criteria:** AUC >= 0.78 or documented fallback vs baseline,Zarina Kosaman,Critical,M2,To do,2026-11-24
+"Hyperparameter tuning with CV, no leakage",**Acceptance criteria:** tuning script + CV results committed,Zarina Kosaman,Major,M2,To do,2026-11-28
+Subgroup metric report by sex and age,"**Acceptance criteria:** per-subgroup AUC table, gaps > 0.05 documented",Zarina Kosaman,Critical,M2,To do,2026-11-30
+SHAP explanation module,**Acceptance criteria:** top-k signed attributions with unit tests,Muslim Syzdykov,Critical,M2,To do,2026-12-01
+Model card v1,"**Acceptance criteria:** all template sections filled, metrics match reports",Zarina Kosaman,Critical,M2,To do,2026-12-03
+Evaluation report v1 vs both baselines with confidence intervals,**Acceptance criteria:** report committed,Zarina Kosaman,Major,M2,To do,2026-12-06
+Model bundle contract: input schema + versioning,**Acceptance criteria:** JSON schema + loader tests,Muslim Syzdykov,Major,M2,To do,2026-12-06
+PostgreSQL schema migrations,**Acceptance criteria:** up/down migrations tested,Muslim Syzdykov,Critical,M3,To do,2026-12-10
+POST /api/v1/assessments guest endpoint,**Acceptance criteria:** 15+ contract test cases pass,Muslim Syzdykov,Critical,M3,To do,2026-12-14
+Auth: register/login/JWT/bcrypt,"**Acceptance criteria:** negative auth tests pass, no plaintext passwords",Muslim Syzdykov,Critical,M3,To do,2026-12-18
+History endpoints + account deletion,**Acceptance criteria:** integration tests incl. erasure pass,Muslim Syzdykov,Critical,M3,To do,2026-12-22
+Admin endpoints,**Acceptance criteria:** 403 for non-admin verified,Muslim Syzdykov,Minor,M3,To do,2026-12-26
+"CI pipeline: lint, tests, gitleaks, schemathesis",**Acceptance criteria:** CI green on main,Muslim Syzdykov,Major,M3,To do,2026-12-27
+React scaffold + TypeScript types generated from OpenAPI,"**Acceptance criteria:** client compiles, dev build runs",Sara Mukhammad,Critical,M4,To do,2027-01-05
+Questionnaire form with validation,**Acceptance criteria:** E2E valid + invalid input cases pass,Sara Mukhammad,Critical,M4,To do,2027-01-10
+Risk report page with factors and disclaimer,**Acceptance criteria:** E2E assertions for FR-03/FR-04 pass,Sara Mukhammad,Critical,M4,To do,2027-01-15
+History and trends page,**Acceptance criteria:** works with >= 2 assessments,Sara Mukhammad,Major,M4,To do,2027-01-19
+"Usability test protocol and run, n >= 5",**Acceptance criteria:** SUS >= 70 or improvement plan,Sara Mukhammad,Major,M4,To do,2027-01-22
+Performance test p95 <= 500 ms,**Acceptance criteria:** k6/locust report attached,Muslim Syzdykov,Major,M4,To do,2027-01-23
+End-to-end demo rehearsal with video backup,**Acceptance criteria:** demo runs twice successfully,Team,Critical,M5,To do,2027-02-04
+Documentation update and tag pre-defense-1,"**Acceptance criteria:** tag pushed, README updated",Muslim Syzdykov,Critical,M5,To do,2027-02-07
+Supervisor review of M1-M4 results,**Acceptance criteria:** feedback logged and addressed,Aigerim Bakiyeva,Critical,M5,To do,2027-02-06
+Evidence of relevance: 3-5 interviews with user representatives per protocol docs/evidence/user-research.md,"**Acceptance criteria:** findings log filled, verified findings vs assumptions marked",Team,Critical,M0,To do,2026-10-22
+"Create YouTrack project, import backlog, add link to README","**Acceptance criteria:** link live in README, tasks created",Muslim Syzdykov,Critical,M0,Done,2026-10-23
+"Push repository to GitHub, grant access to team and supervisor","**Acceptance criteria:** repo link live in README, all members + supervisor have access",Muslim Syzdykov,Critical,M0,To do,2026-10-23

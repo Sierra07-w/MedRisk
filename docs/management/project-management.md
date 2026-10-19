@@ -60,7 +60,7 @@ P = probability, I = impact (H/M/L).
 | Dependency | Type | Needed by | Status |
 |---|---|---|---|
 | Topic approval by dean & supervisor | External | M0 | in progress (statements filed) |
-| YouTrack project creation | Tooling | M0 | pending — backlog ready for import |
+| YouTrack project creation | Tooling | M0 | **done** — [DIP project](https://medrisk.youtrack.cloud/projects/DIP), 46 tasks imported 19 Oct 2026 |
 | GitHub repository access for team + supervisor | Tooling | M0 | pending (repo prepared locally) |
 | Public dataset availability (UCI, Kaggle Framingham) | Data | M1 | UCI confirmed; Framingham — to verify |
 | Supervisor feedback turnaround ≤ 1 week | Human | all | agreed |

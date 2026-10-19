@@ -156,9 +156,10 @@ cd frontend && npm install && npm run dev && npm run test
 
 ## Task tracking
 
-- **YouTrack project:** [medrisk.youtrack.cloud/projects/DIP](https://medrisk.youtrack.cloud/projects/DIP)
-- Import-ready backlog: [docs/management/youtrack-backlog.md](docs/management/youtrack-backlog.md)
-  and `docs/management/youtrack-import.csv`.
+- **YouTrack project:** [medrisk.youtrack.cloud/projects/DIP](https://medrisk.youtrack.cloud/projects/DIP) —
+  all 46 tasks (DIP-1 … DIP-46) are imported and kept in sync by `scripts/youtrack_import.py`.
+- Backlog source: [docs/management/youtrack-backlog.md](docs/management/youtrack-backlog.md)
+  and `docs/management/youtrack-import.csv` (edit these, then re-run the script).
 - Every meaningful work item is a YouTrack task; its ID goes into the branch name and
   commit/PR title (`DIP-23: add database schema`). See [CONTRIBUTING.md](CONTRIBUTING.md).
 

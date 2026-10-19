@@ -4,19 +4,33 @@
 Usage:
     export YOUTRACK_URL=https://medrisk.youtrack.cloud
     export YOUTRACK_TOKEN=<permanent token>   # Avatar -> Account Security -> Tokens
-    python3 scripts/youtrack_import.py --dry-run   # check mapping without changes
-    python3 scripts/youtrack_import.py             # import
+    python3 scripts/youtrack_import.py --dry-run   # check mapping, create nothing
+    python3 scripts/youtrack_import.py             # import (idempotent: re-running
+                                                   # updates already-imported issues)
 
 The token needs these YouTrack permissions: Read basic user info, Users, Projects,
-Issues: Create/Modify; project-admin permissions for custom fields (optional).
+Issues: Create/Modify; project-admin permissions for custom fields.
 
-Rows are imported strictly in CSV order so issue IDs match DIP-1 .. DIP-46.
+Rows are processed strictly in CSV order, so issue IDs match DIP-1 .. DIP-46.
+The script is idempotent: existing issues are updated in place, missing ones are
+created, and a creation must land on the expected DIP-<n> ID (the script aborts
+otherwise, because YouTrack never renumbers issues).
+
+Field payloads follow the real medrisk.youtrack.cloud schema:
+  Priority   SingleEnumIssueCustomField / {"name": "<enum>"}
+  State      StateIssueCustomField      / {"name": "To do"|"In Progress"|"Done"}
+  Assignee   SingleUserIssueCustomField / {"login": "<login>"}   (users only —
+             project teams are rejected by the API, see "Team" handling below)
+  Milestone  TextIssueCustomField       / {"text": "M0"}
+  Due Date   not settable via the issues API (the REST date format is rejected);
+             set through the commands API: POST /api/commands "Due Date <YYYY-MM-DD>"
 """
 import argparse
 import csv
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -27,13 +41,15 @@ PROJECT_SHORT = "DIP"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(ROOT, "docs", "management", "youtrack-import.csv")
 
-# name used in the CSV -> invite e-mail (see youtrack-backlog.md, step 2)
+# CSV assignee name -> invite e-mail (see youtrack-backlog.md, step 2)
 NAME_TO_EMAIL = {
     "Muslim Syzdykov": "mme84855@gmail.com",
     "Zarina Kosaman": "zarinakosaman9@gmail.com",
     "Sara Mukhammad": "mukhammadsara07@gmail.com",
     "Aigerim Bakiyeva": "A.Bakiyeva@astanait.edu.kz",
 }
+# CSV value for collective tasks -> the e-mail of the coordinating lead
+TEAM_LEAD_EMAIL = "mme84855@gmail.com"
 
 
 def api(method, path, payload=None, fields="summary", ok=(200, 201)):
@@ -56,65 +72,83 @@ def api(method, path, payload=None, fields="summary", ok=(200, 201)):
             return (e.code, json.loads(body))
         except Exception:
             return (e.code, {"error": body[:300]})
+    except Exception as e:  # network hiccup -> one retry
+        time.sleep(2)
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                body = r.read()
+                return (r.status, json.loads(body) if body else None)
+        except Exception:
+            return (0, {"error": str(e)})
 
 
-def get_user(name):
-    """Resolve a CSV assignee to an existing YouTrack login."""
-    email = NAME_TO_EMAIL.get(name, name)
-    for query in (email, name):
-        status, users = api("GET", "/api/users?query=" + urllib.parse.quote(query),
-                            fields="login,name")
-        if status == 200 and users:
-            # exact-ish match: login or name contains the query
-            for u in users:
-                if query.lower() in (u.get("login", "") + u.get("name", "")).lower():
-                    return u["login"]
+def find_project():
+    for path in ("/api/admin/projects", "/api/projects"):
+        status, projects = api("GET", path, fields="id,name,shortName")
+        if status == 200:
+            for p in projects:
+                if p.get("shortName") == PROJECT_SHORT:
+                    return p
+            return None
     return None
 
 
-def build_description(row):
+def load_users():
+    """email -> login map for all registered users."""
+    status, users = api("GET", "/api/users", fields="login,name,email")
+    if status != 200:
+        sys.exit(f"Cannot list users ({status}): {users}")
+    return {u["email"]: u["login"] for u in users if u.get("email")}
+
+
+def resolve_assignee(name, email_to_login):
+    """CSV assignee -> YouTrack login, or None (left unassigned + warned)."""
+    if name == "Team":
+        return email_to_login.get(TEAM_LEAD_EMAIL)
+    email = NAME_TO_EMAIL.get(name)
+    login = email_to_login.get(email) if email else None
+    if login is None:
+        print(f"  warn: no YouTrack account for {name!r} — issue will be unassigned")
+    return login
+
+
+def build_description(row, assignee_login):
     desc = row["Description"]
-    if "(acceptance:" in desc:
-        main, acc = desc.split("(acceptance:", 1)
-        desc = main.strip() + "\n\n**Acceptance criteria:** " + acc.rstrip(")").strip()
-    desc += f"\n\n**Milestone:** {row['Milestone']} · **Due:** {row['Due date']}"
+    if assignee_login is None:
+        desc += "\n\n**Assignee:** (not registered in YouTrack — assign manually)"
     return desc
 
 
-def build_payload(row, assignee, include_milestone_field):
-    fields = [
-        {"name": "Priority", "value": {"name": row["Priority"]}},
-        {"name": "State", "value": {"name": row["State"]}},
+def build_payload(row, assignee_login, project_id, for_create):
+    custom_fields = [
+        {"$type": "SingleEnumIssueCustomField", "name": "Priority",
+         "value": {"name": row["Priority"]}},
+        {"$type": "StateIssueCustomField", "name": "State",
+         "value": {"name": row["State"]}},
+        {"$type": "TextIssueCustomField", "name": "Milestone",
+         "value": {"text": row["Milestone"]}},
     ]
-    if assignee:
-        fields.append({"name": "Assignee", "value": {"login": assignee}})
-    if include_milestone_field:
-        fields.append({"name": "Milestone", "value": {"name": row["Milestone"]}})
-    return {
+    if assignee_login:
+        custom_fields.append(
+            {"$type": "SingleUserIssueCustomField", "name": "Assignee",
+             "value": {"login": assignee_login}})
+    payload = {
         "summary": row["Summary"],
-        "description": build_description(row),
-        "customFields": fields,
-        "dueDate": row["Due date"],
+        "description": build_description(row, assignee_login),
+        "customFields": custom_fields,
     }
+    if for_create:
+        payload["project"] = {"$type": "Project", "id": project_id}
+    return payload
 
 
-def optional_variants(payload, assignee, milestone_field):
-    """Successively stricter payloads when YouTrack rejects an attribute."""
-    yield payload, "all fields"
-    p = {k: v for k, v in payload.items() if k != "dueDate"}
-    yield p, "without dueDate"
-    p = dict(p)
-    p["customFields"] = [f for f in p["customFields"] if f["name"] != "Milestone"]
-    yield p, "without milestone field (milestone stays in description)"
-    p = dict(p)
-    p["customFields"] = [f for f in p["customFields"] if f["name"] != "State"]
-    yield p, "without state"
-    if assignee:
-        p = dict(p)
-        p["customFields"] = [f for f in p["customFields"] if f["name"] != "Assignee"]
-        yield p, "without assignee"
-    p = {k: v for k, v in p.items() if k != "customFields"}
-    yield p, "summary + description only"
+def set_due_date(issue_id, due_date):
+    """Due Date is a date custom field; the issues API rejects every REST date
+    format, so set it through the commands API."""
+    status, resp = api("POST", "/api/commands", fields=None,
+                       payload={"query": f"Due Date {due_date}",
+                                "issues": [{"id": issue_id}]})
+    return status == 200, resp
 
 
 def main():
@@ -126,75 +160,107 @@ def main():
     if not TOKEN:
         sys.exit("Set YOUTRACK_TOKEN (Avatar -> Account Security -> Tokens -> New token).")
 
-    status, projects = api("GET", "/api/projects", fields="id,name,shortName")
-    if status != 200:
-        sys.exit(f"Cannot list projects ({status}): {projects}")
-    project = next((p for p in projects if p.get("shortName") == PROJECT_SHORT), None)
+    project = find_project()
     if not project:
-        sys.exit(f"Project with short name {PROJECT_SHORT} not found. Projects: "
-                 + ", ".join(p.get("shortName", "?") for p in projects))
+        sys.exit(f"Project {PROJECT_SHORT} not found (checked /api/admin/projects "
+                 "and /api/projects).")
     print(f"Project: {project['name']} ({project['shortName']}, id={project['id']})")
 
-    # check whether Milestone custom field exists (create it if possible)
-    status, cfs = api("GET", f"/api/admin/projects/{project['id']}/customFields",
-                      fields="name")
-    has_milestone = False
-    if status == 200:
-        has_milestone = any(c.get("name") == "Milestone" for c in cfs)
-        if not has_milestone and not args.dry_run:
-            st, resp = api("POST", f"/api/admin/projects/{project['id']}/customFields",
-                           {"name": "Milestone", "type": {"name": "string"},
-                            "isMultiValue": False}, fields="id,name")
-            has_milestone = st in (200, 201)
-            print("Milestone custom field", "created" if has_milestone
-                  else f"NOT created ({st}): {resp}")
-    else:
-        print(f"Note: cannot read custom fields ({status}) — milestone will go "
-              "into the description only")
+    email_to_login = load_users()
+    print("Registered users: " + ", ".join(
+        f"{e} -> {l}" for e, l in sorted(email_to_login.items())))
 
     with open(CSV_PATH, encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     print(f"{len(rows)} tasks in {os.path.relpath(CSV_PATH, ROOT)}")
 
+    # existing issues in the project -> idReadable (idempotency + ID verification)
+    existing = {}
+    status, all_issues = api("GET", "/api/issues?$top=500",
+                             fields="id,idReadable,summary")
+    if status == 200:
+        existing = {i["idReadable"]: i for i in (all_issues or [])
+                    if i.get("idReadable", "").startswith(PROJECT_SHORT + "-")}
+    else:
+        print(f"  warn: cannot list issues ({status}): {all_issues}")
+    print(f"Already in YouTrack: {len(existing)} issue(s)")
+
     if args.dry_run:
-        users = {}
-        for name in sorted({r["Assignee"] for r in rows}):
-            login = None if name == "Team" else get_user(name)
-            users[name] = login or "(unresolved)"
-        for name, login in users.items():
-            print(f"  assignee {name!r} -> {login}")
-        for r in rows:
-            print(f"  {r['Summary']:<7} {r['Priority']:<9} {r['State']:<11} "
-                  f"{r['Milestone']}  due {r['Due date']}")
+        for i, r in enumerate(rows, 1):
+            login = resolve_assignee(r["Assignee"], email_to_login) or "-"
+            action = "update" if f"{PROJECT_SHORT}-{i}" in existing else "create"
+            print(f"  {action:6} {PROJECT_SHORT}-{i:<3} {r['Priority']:<9} "
+                  f"{r['State']:<11} {r['Milestone']}  due {r['Due date']}  "
+                  f"assignee {r['Assignee']} -> {login}")
         print("Dry run OK — re-run without --dry-run to import.")
         return
 
-    created, skipped = [], []
-    for row in rows:
-        assignee = None if row["Assignee"] == "Team" else get_user(row["Assignee"])
-        if row["Assignee"] != "Team" and not assignee:
-            print(f"  warn: assignee {row['Assignee']!r} unresolved — created unassigned")
-        last_err = None
-        for payload, variant in optional_variants(
-                build_payload(row, assignee, has_milestone), assignee, has_milestone):
-            status, resp = api("POST", "/api/issues", payload, fields="idReadable,summary")
-            if status in (200, 201):
-                created.append(resp["idReadable"])
-                print(f"  {resp['idReadable']} <- {row['Summary']}  [{variant}]")
-                break
-            last_err = resp
-        else:
-            skipped.append(row["Summary"])
-            print(f"  FAILED {row['Summary']}: {last_err}")
-        # be gentle with the quota
-        import time
-        time.sleep(0.3)
+    created, updated, failed = [], [], []
+    for i, row in enumerate(rows, 1):
+        expected_id = f"{PROJECT_SHORT}-{i}"
+        assignee = resolve_assignee(row["Assignee"], email_to_login)
+        exists = expected_id in existing
 
-    print(f"\nCreated: {len(created)}  Failed: {len(skipped)}")
-    if skipped:
-        print("Failed tasks:\n  " + "\n  ".join(skipped))
+        payload = build_payload(row, assignee, project["id"], for_create=not exists)
+        if exists:
+            status, resp = api("POST", f"/api/issues/{expected_id}",
+                               payload, fields="id,idReadable")
+        else:
+            status, resp = api("POST", "/api/issues", payload,
+                               fields="id,idReadable")
+
+        if status not in (200, 201):
+            # never fall back to a weaker payload: a successful-but-wrong create
+            # would consume an issue number and break DIP-1..DIP-46 ordering
+            failed.append(expected_id)
+            print(f"  FAILED {expected_id}: {status} {resp}")
+            break
+        if resp.get("idReadable") != expected_id:
+            failed.append(expected_id)
+            print(f"  FAILED {expected_id}: got {resp.get('idReadable')} — "
+                  "ID sequence is broken (a stray issue was created earlier?); "
+                  "fix the project ID counter before re-running")
+            break
+
+        ok, due_resp = set_due_date(resp["id"], row["Due date"])
+        if not ok:
+            failed.append(expected_id)
+            print(f"  FAILED {expected_id}: due date not set: {due_resp}")
+            break
+
+        (updated if exists else created).append(expected_id)
+        print(f"  {expected_id} {'updated' if exists else 'created':7} "
+              f"{row['Summary']}")
+        time.sleep(0.2)
+
+    print(f"\nCreated: {len(created)}  Updated: {len(updated)}  Failed: {len(failed)}")
+    if failed:
         sys.exit(1)
-    print(f"Verify ID order: first={created[0]} last={created[-1]}")
+    print(f"Import order verified: DIP-1..{PROJECT_SHORT}-{len(rows)}")
+
+    # final verification: every expected field must be set
+    status, issues = api("GET", "/api/issues?$top=500",
+                         fields="idReadable,summary,"
+                                "customFields(name,value($type,name,text,login))")
+    problems = []
+    by_id = {i["idReadable"]: i for i in (issues or [])}
+    for i, row in enumerate(rows, 1):
+        issue = by_id.get(f"{PROJECT_SHORT}-{i}")
+        if not issue:
+            problems.append(f"{PROJECT_SHORT}-{i} missing")
+            continue
+        got = {c["name"]: c.get("value") for c in issue.get("customFields", [])}
+        if (got.get("State") or {}).get("name") != row["State"]:
+            problems.append(f"{PROJECT_SHORT}-{i} state={got.get('State')}")
+        if (got.get("Priority") or {}).get("name") != row["Priority"]:
+            problems.append(f"{PROJECT_SHORT}-{i} priority={got.get('Priority')}")
+        if (got.get("Milestone") or {}).get("text") != row["Milestone"]:
+            problems.append(f"{PROJECT_SHORT}-{i} milestone={got.get('Milestone')}")
+    if problems:
+        print("Verification problems:\n  " + "\n  ".join(problems))
+        sys.exit(1)
+    print("Verification OK: state, priority and milestone match the CSV for all "
+          f"{len(rows)} issues.")
 
 
 if __name__ == "__main__":

@@ -2,8 +2,15 @@
 
 **Purpose:** import-ready backlog.
 **Project:** [medrisk.youtrack.cloud/projects/DIP](https://medrisk.youtrack.cloud/projects/DIP) — created;
-import of the 46 tasks is pending (automated: `scripts/youtrack_import.py`, manual: guide below).
-After the import, verify the IDs and keep this file in sync with the actual YouTrack state.
+**all 46 tasks imported on 19 Oct 2026** (automated: `scripts/youtrack_import.py`, manual: guide below).
+The script is idempotent — re-run it after editing the CSV to keep YouTrack in sync.
+Verified: IDs run DIP-1 … DIP-46 in table order, and state, priority, milestone and
+due date match the CSV for every issue.
+
+> **Note on assignees:** the YouTrack *Assignee* field accepts users only, so the four
+> `Team` rows (DIP-6, DIP-10, DIP-41, DIP-44) are assigned to the coordinating lead
+> (Muslim, login `admin`); DIP-43 (supervisor review) is left unassigned — the
+> supervisor has no YouTrack account yet.
 
 ## How to import the backlog into YouTrack (step by step)
 
@@ -14,8 +21,9 @@ After the import, verify the IDs and keep this file in sync with the actual YouT
 1. YouTrack → `+ New` (or Administration → Projects → `+`) → **Create Project**.
 2. Name: `MedRisk`. **ID prefix: `DIP`** — this is important: branch and commit names in
    Git use these IDs (see CONTRIBUTING.md).
-3. Workflow: choose one whose states are close to `Submitted → In Progress → In Review → Done`
-   (e.g. the *Agile*-style workflow); you can rename states later in the workflow settings.
+3. Workflow: choose one whose states are close to `To do → In Progress → Done`
+   (this is the workflow the DIP project actually uses — the import relies on these
+   exact option names).
 
 **Step 2 — Prepare fields and users**
 1. Invite the team first: Administration → Users → `+` — invite
@@ -26,7 +34,7 @@ After the import, verify the IDs and keep this file in sync with the actual YouT
    **Custom Fields** → `+` → type **State field** (or Text) → name `Milestone`,
    attach to issue type *Issue*.
 3. Check that **Priority** (Critical/Major/Normal/Minor) and **State**
-   (Submitted/In Progress/In Review/Done) already exist in the project workflow —
+   (To do/In Progress/Done) already exist in the project workflow —
    CSV values must match the existing option names exactly.
 
 **Step 3 — Import the CSV**
@@ -60,7 +68,7 @@ state, milestone, due date. Order does not matter then.
 
 Suggested project settings:
 - **Project name:** MedRisk, **ID prefix:** `DIP`
-- **States:** Submitted → In Progress → In Review → Done
+- **States:** To do → In Progress → Done
 - **Priorities:** Critical / Major / Normal / Minor
 - Custom fields: `Milestone` (M0…M6)
 
