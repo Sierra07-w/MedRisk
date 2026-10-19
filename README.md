@@ -2,6 +2,7 @@
 
 **Diploma project (team of 3), Educational program 6B06102 — Software Engineering**
 Supervisor: **Aigerim Muratovna Bakiyeva** (A.Bakiyeva@astanait.edu.kz)
+Repository: [github.com/kkfes/medrisk](https://github.com/kkfes/medrisk) (private)
 
 MedRisk is a decision-support web system that estimates a person's **cardiometabolic risk**
 (cardiovascular disease and type 2 diabetes) from a short health questionnaire and standard

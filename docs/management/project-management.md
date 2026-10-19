@@ -61,7 +61,7 @@ P = probability, I = impact (H/M/L).
 |---|---|---|---|
 | Topic approval by dean & supervisor | External | M0 | in progress (statements filed) |
 | YouTrack project creation | Tooling | M0 | **done** — [DIP project](https://medrisk.youtrack.cloud/projects/DIP), 46 tasks imported 19 Oct 2026 |
-| GitHub repository access for team + supervisor | Tooling | M0 | pending (repo prepared locally) |
+| GitHub repository access for team | Tooling | M0 | repo created: [github.com/kkfes/medrisk](https://github.com/kkfes/medrisk); collaborators `haweeks` (Zarina) and `Sierra07-w` (Sara); supervisor access not required by team decision |
 | Public dataset availability (UCI, Kaggle Framingham) | Data | M1 | UCI confirmed; Framingham — to verify |
 | Supervisor feedback turnaround ≤ 1 week | Human | all | agreed |
 | Hosting for demos (university server or cloud) | Infra | M3–M4 | to be decided |
