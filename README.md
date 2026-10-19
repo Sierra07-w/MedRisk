@@ -156,8 +156,8 @@ cd frontend && npm install && npm run dev && npm run test
 
 ## Task tracking
 
-- **YouTrack project:** *to be created* — link will be added here once the instance is set up.
-  Import-ready backlog: [docs/management/youtrack-backlog.md](docs/management/youtrack-backlog.md)
+- **YouTrack project:** [medrisk.youtrack.cloud/projects/DIP](https://medrisk.youtrack.cloud/projects/DIP)
+- Import-ready backlog: [docs/management/youtrack-backlog.md](docs/management/youtrack-backlog.md)
   and `docs/management/youtrack-import.csv`.
 - Every meaningful work item is a YouTrack task; its ID goes into the branch name and
   commit/PR title (`DIP-23: add database schema`). See [CONTRIBUTING.md](CONTRIBUTING.md).

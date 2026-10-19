@@ -1,8 +1,9 @@
 # YouTrack Task Backlog — MedRisk
 
-**Purpose:** import-ready backlog. A YouTrack project is not created yet; once created,
-import `youtrack-import.csv` (see the step-by-step guide below) or create tasks manually
-from the table, then **update the project link in the root README**.
+**Purpose:** import-ready backlog.
+**Project:** [medrisk.youtrack.cloud/projects/DIP](https://medrisk.youtrack.cloud/projects/DIP) — created;
+import of the 46 tasks is pending (automated: `scripts/youtrack_import.py`, manual: guide below).
+After the import, verify the IDs and keep this file in sync with the actual YouTrack state.
 
 ## How to import the backlog into YouTrack (step by step)
 
