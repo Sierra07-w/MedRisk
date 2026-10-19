@@ -10,6 +10,9 @@ DIP-8,"HTML prototype of key user scenarios (acceptance: 4 mockups committed and
 DIP-9,"Verification and evaluation plan: metrics, baselines, thresholds (acceptance: plan committed)",Zarina Kosaman,Critical,M0,Done,2026-10-24
 DIP-10,"Project management: roles, milestones, risks, dependencies (acceptance: doc committed, team confirmed)",Team,Major,M0,Done,2026-10-24
 DIP-11,"YouTrack backlog preparation and import (acceptance: backlog + CSV committed, project created)",Muslim Syzdykov,Major,M0,Done,2026-10-24
+DIP-44,"Evidence of relevance: 3-5 interviews with user representatives per protocol docs/evidence/user-research.md (acceptance: findings log filled, verified findings vs assumptions marked)",Team,Critical,M0,Submitted,2026-10-22
+DIP-45,"Create YouTrack project, import backlog, add link to README (acceptance: link live in README, tasks created)",Muslim Syzdykov,Critical,M0,Submitted,2026-10-23
+DIP-46,"Push repository to GitHub, grant access to team and supervisor (acceptance: repo link live in README, all members + supervisor have access)",Muslim Syzdykov,Critical,M0,Submitted,2026-10-23
 DIP-12,"Download scripts for UCI Cleveland and Pima datasets (acceptance: scripts pin URLs + checksums, raw data git-ignored)",Zarina Kosaman,Critical,M1,Submitted,2026-10-25
 DIP-13,"Data-quality report: missingness, imbalance, biases (acceptance: docs/ml/data-quality-report.md with statistics)",Zarina Kosaman,Critical,M1,Submitted,2026-11-01
 DIP-14,"Preprocessing pipeline: impute, encode, split, seeded (acceptance: reproducible pipeline, unit tests pass, no leakage)",Zarina Kosaman,Critical,M1,Submitted,2026-11-05
