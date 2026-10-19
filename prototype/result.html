@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your risk report — MedRisk</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site">
+  <a class="logo" href="index.html"><span class="mark">MR</span> MedRisk</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="assessment.html">Assessment</a>
+    <a href="dashboard.html">History</a>
+    <a href="#">Log in</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Your risk report</h1>
+  <p class="lead">Assessment #A-1042 · 19 October 2026 · model v0.3 (LightGBM)</p>
+  <div class="mockup-note">Prototype mockup: values below are a pre-built example for a
+  52-year-old female smoker with hypertension.</div>
+
+  <div class="grid cols-2">
+    <div class="card gauge">
+      <h2 style="margin-top:0">Cardiovascular disease · 10 years</h2>
+      <div class="value">24.6&nbsp;%</div>
+      <span class="risk-badge risk-high">High risk</span>
+      <div class="bar"><span style="width:62%; background:var(--high)"></span></div>
+      <p class="factor-note">Compared with a woman of your age in the general population
+      (≈&nbsp;5&nbsp;%), your risk is about 5× higher.</p>
+    </div>
+
+    <div class="card gauge">
+      <h2 style="margin-top:0">Type 2 diabetes · 10 years</h2>
+      <div class="value">31.2&nbsp;%</div>
+      <span class="risk-badge risk-very-high">Very high risk</span>
+      <div class="bar"><span style="width:78%; background:var(--very-high)"></span></div>
+      <p class="factor-note">Fasting glucose 6.4 mmol/L is in the pre-diabetes range
+      (5.6–6.9 mmol/L).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">What drives your cardiovascular risk</h2>
+    <p class="factor-note">Each bar shows the factor's contribution to <em>your</em> estimate.
+    Red increases it, green decreases it. Based on SHAP attribution of the model (FR-04).</p>
+    <ul class="factors">
+      <li><strong>Systolic blood pressure (142 mmHg)</strong> — strongly increases your risk
+        <div class="factor-bar"><span class="up" style="width:88%"></span></div></li>
+      <li><strong>Smoking</strong> — strongly increases your risk
+        <div class="factor-bar"><span class="up" style="width:74%"></span></div></li>
+      <li><strong>Age (52)</strong> — increases your risk
+        <div class="factor-bar"><span class="up" style="width:55%"></span></div></li>
+      <li><strong>HDL cholesterol (1.1 mmol/L, low)</strong> — increases your risk
+        <div class="factor-bar"><span class="up" style="width:41%"></span></div></li>
+      <li><strong>Physical inactivity</strong> — increases your risk
+        <div class="factor-bar"><span class="up" style="width:30%"></span></div></li>
+      <li><strong>HDL being above the lowest range</strong> — slightly decreases your risk
+        <div class="factor-bar"><span class="down" style="width:12%"></span></div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">What you can do next</h2>
+    <ul>
+      <li>Measure your blood pressure at home for a week and show the log to your doctor.</li>
+      <li>Discuss medication review (antihypertensive / statin) with a physician — do not start or stop medication based on this tool.</li>
+      <li>Smoking cessation has the single largest effect on your personal risk in this estimate.</li>
+      <li>Repeat the assessment in 3–6 months to see the trend (create an account to track it).</li>
+    </ul>
+    <p><a class="btn" href="dashboard.html">Save &amp; view history</a>
+       <a class="btn secondary" href="assessment.html">Re-do assessment</a></p>
+  </div>
+
+  <p class="disclaimer"><strong>This is not a diagnosis.</strong> MedRisk produces statistical
+  risk estimates from self-reported data. Model performance, limitations and validation results
+  are published in the project repository. Only a licensed physician can diagnose or treat disease.</p>
+</main>
+
+<footer class="site">MedRisk · Diploma project, SE-2425 / SE-2429 / SE-2419 · Supervisor: A.&nbsp;Bakiyeva</footer>
+</body>
+</html>

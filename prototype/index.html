@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedRisk — Intelligent Disease Risk Assessment</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site">
+  <a class="logo" href="index.html"><span class="mark">MR</span> MedRisk</a>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="assessment.html">Assessment</a>
+    <a href="dashboard.html">History</a>
+    <a href="#">Log in</a>
+  </nav>
+</header>
+
+<main>
+  <div class="banner">
+    <h1>Know your cardiometabolic risk in 3 minutes</h1>
+    <p class="lead">MedRisk estimates your 10-year risk of cardiovascular disease and type&nbsp;2
+    diabetes from a short health questionnaire — and explains <em>which factors drive your result</em>
+    in plain language. No lab visit required.</p>
+    <a class="btn" href="assessment.html">Start the assessment →</a>
+    <a class="btn secondary" href="#how">How it works</a>
+  </div>
+
+  <div class="mockup-note">Prototype mockup (pre-defense 0). Numbers below are illustrative;
+  no real prediction model is running on this page.</div>
+
+  <div class="grid cols-3" id="how">
+    <div class="card">
+      <h2 style="margin-top:0">1 · Answer</h2>
+      <p>12 simple questions about age, blood pressure, cholesterol, habits and family history.
+      Guest mode — no account required.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">2 · Estimate</h2>
+      <p>Machine-learning models validated against clinical baselines (Framingham, SCORE-style)
+      compute two risks for the same input.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">3 · Understand</h2>
+      <p>Your personal top-5 risk factors, ranked and explained — so you know what to discuss
+      with your doctor first.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">What you get</h2>
+    <table>
+      <tr><th>Report section</th><th>Contents</th></tr>
+      <tr><td>Cardiovascular risk</td><td>10-year probability, category (low / moderate / high / very high)</td></tr>
+      <tr><td>Diabetes risk</td><td>10-year probability, category, key metabolic factors</td></tr>
+      <tr><td>Factor attribution</td><td>Top contributing factors with direction and relative magnitude (SHAP)</td></tr>
+      <tr><td>Next steps</td><td>Plain-language suggestions; what to measure next; doctor-visit guidance</td></tr>
+      <tr><td>History <span class="hint">(account)</span></td><td>Past assessments and risk trends over time</td></tr>
+    </table>
+    <p class="disclaimer">MedRisk is an educational decision-support tool. It provides risk
+    estimates, <strong>not diagnoses</strong>. Always consult a licensed physician.</p>
+  </div>
+</main>
+
+<footer class="site">MedRisk · Diploma project, SE-2425 / SE-2429 / SE-2419 · Supervisor: A.&nbsp;Bakiyeva</footer>
+</body>
+</html>
